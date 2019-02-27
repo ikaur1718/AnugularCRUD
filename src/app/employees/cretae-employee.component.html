@@ -1,0 +1,89 @@
+<!-- 
+  1. As soon as Angular sees this form property it attaches ngForm directive to it. ngForm directive suppliments the form with additional features. It keeps track of all the form controls like value, valid etc. To get the reference of this ngForm directive we create a variablecalled #employeeForm which we can use to get the properties of ngForm. Angular also creates the formModel called ngModel which will keep track of all the form controls. at this movement we have two controls Fullname and email and we have to bind the controls with th ngModel and when we bind the ngModel we have to set the name property of the controls aslo. 
+  2. Comments about radio button: 
+    a) if you want the radio button to be checked by default then you need to create a variable in component.ts and set it to the value property. then only ngModel works.
+    b) if you want a radio button to be disabled inclued disabled in radio button but after doing this it does not participate in the ngModel.
+  3. The same actions happen on checkboxes.
+
+-->
+
+<form #employeeForm="ngForm" (ngSubmit)="saveEmployee(employeeForm)"> 
+  <div class="panel panel-primary">
+    <div class="panel-heading">
+      <h3 class="panel-title">Create Employee</h3>
+    </div>
+    <div class="panel-body">
+        
+      <div class="form-group">
+        <label for="fullName">Full Name</label>
+          <input type="text" name="fullName" [(ngModel)]="fullName" class="form-control" id="fullName">
+      </div>
+        
+      <div class="form-group">
+        <label for="email">Email</label>
+          <input type="text" name="email" [(ngModel)]="email" class="form-control" id="email">
+      </div>  
+
+      <div class="form-group">
+          <label for="phoneNumber">Phone Number</label>
+            <input type="text" name="phoneNumber" [(ngModel)]="phoneNumber" class="form-control" id="phoneNumber">
+        </div>  
+  
+      <div class="form-group">
+        <label>Contact Preference</label>
+        <div class="form-control">
+          <label class="radio-inline">
+            <input type="radio" value="male" name="contactPreference" [(ngModel)]="contactPreference">
+            Male
+          </label>
+          <label class="radio-inline">
+            <input type="radio" value="female" name="contactPreference" [(ngModel)]="contactPreference">
+            Female
+          </label>
+        </div>
+      </div>  
+
+      <div class="form-group">
+        <label>Gender</label>
+          <div class="form-control">
+            <label class="radio-inline">
+              <input type="radio" value="male" name="gender" [(ngModel)]="gender">
+              Male
+            </label>
+            <label class="radio-inline">
+              <input type="radio" value="female" name="gender" [(ngModel)]="gender">
+              Female
+            </label>
+          </div>
+      </div>
+
+      <div class="form-group">
+        <label>Gender</label>
+          <div class="form-control">
+            <label class="checkbox-inline">
+              <input type="checkbox" name="isActive" [(ngModel)]="isActive">
+                IsActive
+            </label>
+          </div>
+      </div>
+
+      <div class="form-group">
+          <label for="department">
+              Department
+          </label>
+          <select id="department" name="department" [(ngModel)]="department" class="form-control">
+            <option value="1">Help Desk</option>
+            <option value="2">HR</option>
+            <option value="3">IT</option>
+            <option value="4">Payroll</option>
+          </select>
+      </div>
+  
+  
+  
+    </div>  <div class="panel-footer">
+      <button type="submit" class="btn btn-primary">Save</button>
+    </div>  
+  </div>
+</form> 
+Angular Generated From Model: {{employeeForm.value | json}}
