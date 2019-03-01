@@ -1,0 +1,37 @@
+{
+  "employees": [
+    {
+      "id": 1,
+      "name": "Mark",
+      "gender": "Emale",
+      "contactPreference": "Email",
+      "email": "mark@klst.com",
+      "dateOfBirth": "10/25/1988",
+      "department": "3",
+      "isActive": true,
+      "photoPath": "assets/images/Matt.jpg"
+    },
+    {
+      "id": 2,
+      "name": "David",
+      "gender": "Male",
+      "contactPreference": "Email",
+      "email": "david@klst.com",
+      "dateOfBirth": "11/25/1970",
+      "department": "2",
+      "isActive": true,
+      "photoPath": "assets/images/david.jpg"
+    },
+    {
+      "id": 3,
+      "name": "Simon",
+      "gender": "Male",
+      "contactPreference": "Email",
+      "email": "simon@klst.com",
+      "dateOfBirth": "10/2/1972",
+      "department": "3",
+      "isActive": true,
+      "photoPath": "assets/images/Simon.jpg"
+    }
+  ]
+}

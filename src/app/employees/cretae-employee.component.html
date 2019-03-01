@@ -4,41 +4,95 @@
     a) if you want the radio button to be checked by default then you need to create a variable in component.ts and set it to the value property. then only ngModel works.
     b) if you want a radio button to be disabled inclued disabled in radio button but after doing this it does not participate in the ngModel.
   3. The same actions happen on checkboxes.
-
+  4. <form #employeeForm="ngForm" (ngSubmit)="saveEmployee(employee)"> 
+      we are removing the argument passed to the saveEmployee because of two way data binding.
+  5. by inserting this line of code  employeeForm.reset(); on the first div after saveEmployee(); we are removing the error which still exists when we click the save button but we have done this by coding.
 -->
-
-<form #employeeForm="ngForm" (ngSubmit)="saveEmployee(employeeForm)"> 
-  <div class="panel panel-primary">
+<form #employeeForm="ngForm" (ngSubmit)="saveEmployee();"> 
+  <div class="panel panel-primary" *ngIf="employee">
     <div class="panel-heading">
-      <h3 class="panel-title">Create Employee</h3>
+      <h3 class="panel-title">{{panelTitle}}</h3>
     </div>
     <div class="panel-body">
+
+<!--
+  has-error is a bootstrop property or class which will check the validation of the text box if fullNameControl is invalid then display the error
+  control-label is also a bootstrap class which will change it to red
+-->
+
         
-      <div class="form-group">
-        <label for="fullName">Full Name</label>
-          <input type="text" name="fullName" [(ngModel)]="fullName" class="form-control" id="fullName">
+      <div class="form-group" [class.has-error]="name.invalid && name.touched" [class.has-success]="name.valid">
+        <label for="name" class="control-label">Full Name</label>
+          <input required #name="ngModel" type="text" name="name" [(ngModel)]="employee.name" class="form-control" id="name">
+          <span class="help-block" *ngIf="name.invalid && name.touched">
+            Name is required
+          </span>
       </div>
+      <!-- <table border=1 style="border-collapse:collapse; font-family:Arial; table-layout: fixed">
+        <tr style="background-color:rgb(170, 120, 12); font-weight: bold">
+          <td colspan="3" style="padding:3px; white-space:nowrap; width:100%">
+            <h4>Full Name Field</h4>
+          </td>
+        </tr>
+        <tr style="background-color:rgb(212, 149, 13); font-weight: bold">
+          <td style="padding:10px; white-space:nowrap; width:33%">
+            <div>touched : {{ fullNameControl.touched }}</div>
+            <div>untouched : {{ fullNameControl.untouched }}</div>
+          </td>
+          <td style="padding:10px; white-space:nowrap; width:33%">
+            <div>pristine : {{ fullNameControl.pristine }}</div>
+            <div>dirty : {{ fullNameControl.dirty }}</div>
+          </td>
+          <td style="padding:10px; white-space:nowrap; width:33%">
+            <div>valid : {{ fullNameControl.valid }}</div>
+            <div>invalid : {{ fullNameControl.invalid }}</div>
+          </td>
+        </tr>
+      </table> -->
         
-      <div class="form-group">
-        <label for="email">Email</label>
-          <input type="text" name="email" [(ngModel)]="email" class="form-control" id="email">
+      <div class="form-group" [class.has-error]="email.invalid && email.touched">
+        <label for="email" class="control-label">Email</label>
+          <input required [email]="employee.email!==''" type="text" name="email" #email="ngModel" [(ngModel)]="employee.email" class="form-control" id="email">
+          <!-- This is like an if statement which says if email.errors then check email.errors.email [ email.errors?.required is same as email.errors && email.errors.email ] this ? is called save navigation operator. it propects against null and undefined values in property path. it is generally used if property exists or not. it safely handels null and undefined values and very usefull to prevent null reference exceptions -->
+          <span class="help-block" *ngIf="email.errors?.required && email.touched">
+              Email is required
+          </span>
+          <span class="help-block" *ngIf="email.errors && email.errors.email && email.touched">
+              Email is invalid
+          </span>
+
       </div>  
 
+      <!-- this is a pattern validation email with reglar expression
+        <div class="form-group" [class.has-error]="email.invalid && email.touched">
+          <label for="email" class="control-label">Email</label>
+            <input required pattern="^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$" type="text" name="email" #email="ngModel" [(ngModel)]="employee.email" class="form-control" id="email">
+             /*This is like an if statement which says if email.errors then check email.errors.email [ email.errors?.required is same as email.errors && email.errors.email ] this ? is called save navigation operator. it propects against null and undefined values in property path. it is generally used if property exists or not. it safely handels null and undefined values and very usefull to prevent null reference exceptions */
+            <span class="help-block" *ngIf="email.errors?.required && email.touched">
+                Email is required
+            </span>
+            <span class="help-block" *ngIf="email.errors && email.errors.pattern && email.touched">
+                Email is invalid
+            </span>
+  
+        </div>   -->
+  
+
       <div class="form-group">
-          <label for="phoneNumber">Phone Number</label>
-            <input type="text" name="phoneNumber" [(ngModel)]="phoneNumber" class="form-control" id="phoneNumber">
-        </div>  
+        <label for="phoneNumber">Phone Number</label>
+          <input type="text" name="phoneNumber" [(ngModel)]="employee.phoneNumber" class="form-control" id="phoneNumber">
+      </div>  
   
       <div class="form-group">
         <label>Contact Preference</label>
         <div class="form-control">
           <label class="radio-inline">
-            <input type="radio" value="male" name="contactPreference" [(ngModel)]="contactPreference">
-            Male
+            <input type="radio" value="Phone Number" name="contactPreference" [(ngModel)]="employee.contactPreference">
+            Phone Number
           </label>
           <label class="radio-inline">
-            <input type="radio" value="female" name="contactPreference" [(ngModel)]="contactPreference">
-            Female
+            <input type="radio" value="Email" name="contactPreference" [(ngModel)]="employee.contactPreference">
+            Email
           </label>
         </div>
       </div>  
@@ -47,21 +101,21 @@
         <label>Gender</label>
           <div class="form-control">
             <label class="radio-inline">
-              <input type="radio" value="male" name="gender" [(ngModel)]="gender">
+              <input type="radio" value="Male" name="gender" [(ngModel)]="employee.gender">
               Male
             </label>
             <label class="radio-inline">
-              <input type="radio" value="female" name="gender" [(ngModel)]="gender">
+              <input type="radio" value="Emale" name="gender" [(ngModel)]="employee.gender">
               Female
             </label>
           </div>
       </div>
 
       <div class="form-group">
-        <label>Gender</label>
+        <label>IsAvtive</label>
           <div class="form-control">
             <label class="checkbox-inline">
-              <input type="checkbox" name="isActive" [(ngModel)]="isActive">
+              <input type="checkbox" name="isActive" [(ngModel)]="employee.isActive">
                 IsActive
             </label>
           </div>
@@ -71,19 +125,52 @@
           <label for="department">
               Department
           </label>
-          <select id="department" name="department" [(ngModel)]="department" class="form-control">
-            <option value="1">Help Desk</option>
+          <select id="department" name="department" [(ngModel)]="employee.department" class="form-control">
+            <!-- <option value="1">Help Desk</option>
             <option value="2">HR</option>
             <option value="3">IT</option>
-            <option value="4">Payroll</option>
+            <option value="4">Payroll</option> -->
+            <option *ngFor="let dept of deapartments" [value]="dept.id">
+              {{dept.name}}
+            </option>
+
           </select>
       </div>
+      <div class="row">
+        <div class="form-group col-md-5">
+            <label for="dateOfBirth">Date of Birth</label>
+            <!-- <input type="date" name="dateOfBirth" [(ngModel)]="dateOfBirth" class="form-control"> -->
+            <input type="text" bsDatepicker [bsConfig]="datepickerConfig" placement="right" name="dateOfBirth" [(ngModel)]="employee.dateOfBirth" class="form-control">
+            <!-- <input type="text" bsDaterangepicker name="dateOfBirth" [(ngModel)]="dateOfBirth" class="form-control"> -->
+
+        </div>  
+      </div>
+
+      <div class="form-group">
+        <label for="photoPath">Photo Path</label>
+          <input type="text" name="photoPath" [(ngModel)]="employee.photoPath" class="form-control">
+      </div>  
+
+      <div class="form-group">
+        <button type="button" (click)="togglePhotoPreview()" class="btn btn-primary" [disabled]="employeeForm.invalid" 
+                *ngIf="employee.photoPath !=='' && employee.photoPath !== null">
+          {{previewPhoto? "Hide ": "Show "}} Preview
+        </button>
+      </div>
   
+
+      <div class="form-group">
+        <img [src]="photoPath" height="200" width="200" 
+              *ngIf="previewPhoto && employee.photoPath !=='' && employee.photoPath !== null"/>
+      </div>
   
-  
-    </div>  <div class="panel-footer">
+    </div>  
+    <div class="panel-footer">
       <button type="submit" class="btn btn-primary">Save</button>
     </div>  
   </div>
 </form> 
 Angular Generated From Model: {{employeeForm.value | json}}
+<br/>
+<br/>
+our Employee property: {{employee | json}}

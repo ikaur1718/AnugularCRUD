@@ -4,14 +4,15 @@
 
     <ul class="nav navbar-nav">
       <li>
-          <a class="navbar-brand" routerLink='/list' >List</a>
-          <a class="navbar-brand" routerLink='/create' >Create</a>
+          <a class="navbar-brand" routerLink='list' >List</a>
+          <a class="navbar-brand" routerLink='edit/0' >Create</a>
       </li>
 
     </ul>
   </nav>
+  <div *ngIf="showLoadingIndicator" class="spinner"></div>
+  <router-outlet></router-outlet>
 </div>
 <!-- <div class="container">
     <app-list-employees></app-list-employees>
 </div> -->
-<router-outlet></router-outlet>
